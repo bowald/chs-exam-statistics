@@ -11,7 +11,7 @@ var port = process.env.PORT || 8080;
 
 
 // connect to mongoDB database
-mongoose.connect(db.url);
+// mongoose.connect(db.url);
 
 // get all data/stuff of the body (POST) parameters
 // parse application/json 
@@ -27,17 +27,18 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(methodOverride('X-HTTP-Method-Override'));
 
 // set the static files location /public/img will be /img for users
-app.use(express.static(__dirname + '/public'));
+app.use(express.static(__dirname + '/dist'));
 
 // routes ==================================================
 require('./app/routes')(app); // configure our routes
 
 // start app ===============================================
 // startup our app at http://localhost:8080
-app.listen(port);
+
+// app.listen(port);
 
 // shoutout to the user                     
-console.log('Magic happens on port ' + port);
+// console.log('Magic happens on port ' + port);
 
 // expose app           
 exports = module.exports = app;

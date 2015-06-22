@@ -1,0 +1,34 @@
+{
+  "maxerr": 50,
+
+  "bitwise": true,
+  "camelcase": true,
+  "curly": true,
+  "eqeqeq": true,
+  "freeze": true,
+  "forin": true,
+  "indent": 4,
+  "newcap": true,
+  "noarg": true,
+  "noempty": true,
+  "nonbsp": true,
+  "nonew": true,
+  "quotmark": "single",
+  "undef": true,
+  "unused": true,
+  "strict": true,
+
+  "sub": true,
+  "globalstrict": true,
+
+  "browser": true,
+  "devel": true,
+  "jquery": true,
+  "node": true,
+
+  "globals": {
+    "angular": true,
+    "describe": true,
+    "it": true
+  }
+}

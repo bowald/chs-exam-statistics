@@ -31,7 +31,7 @@ var Course = require('./models/course');
     });
 
     app.get('*', function(req, res){
-      res.sendfile('./public/views/index.html');
+      res.sendfile('./dist/index.html');
     });
 
   };

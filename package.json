@@ -1,17 +1,18 @@
 {
   "name": "tentastatestik",
   "main": "server.js",
-  "author"       : "Johan Bowald",
-  "description"  : "App to show statistic over courses at Chalmers University.",
+  "author": "Johan Bowald",
+  "description": "App to show statistic over courses at Chalmers University.",
   "dependencies": {
-    "express" : "~4.5.1",
-    "mongoose" : "~3.8.0",
-    "body-parser" : "~1.4.2",
+    "express": "~4.5.1",
+    "mongoose": "~3.8.0",
+    "body-parser": "~1.4.2",
     "bower": "^1.3.12",
     "cookie-parser": "^1.3.3",
-    "method-override" : "~2.0.2",
+    "method-override": "~2.0.2",
     "debug": "^2.1.0",
-    "getenv": "^0.3.0"
+    "getenv": "^0.3.0",
+    "xlsx": "~0.8.0"
   },
   "devDependencies": {
     "browser-sync": "~2.7.11",

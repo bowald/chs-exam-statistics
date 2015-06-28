@@ -1,4 +1,4 @@
-var Course = require('./models/course');
+// var Course = require('./model/course');
 
   module.exports = function(app) {
 

@@ -1,9 +1,11 @@
 
-var express        = require('express');
-var app            = express();
-var bodyParser     = require('body-parser');
-var methodOverride = require('method-override');
-var mongoose       = require('mongoose');
+var express        = require('express'),
+    app            = express(),
+    bodyParser     = require('body-parser'),
+    methodOverride = require('method-override'),
+    mongoose       = require('mongoose'),
+    updateDb       = require('./app/updateDb.js');
+
 
 var db = require('./config/db');
 
@@ -11,10 +13,10 @@ var port = process.env.PORT || 8080;
 
 
 // connect to mongoDB database
-// mongoose.connect(db.url);
+mongoose.connect(db.url);
 
 // get all data/stuff of the body (POST) parameters
-// parse application/json 
+// parse application/json
 app.use(bodyParser.json());
 
 // parse application/vnd.api+json as json
@@ -34,11 +36,11 @@ require('./app/routes')(app); // configure our routes
 
 // start app ===============================================
 // startup our app at http://localhost:8080
-
+updateDb.parse();
 // app.listen(port);
 
-// shoutout to the user                     
+// shoutout to the user
 // console.log('Magic happens on port ' + port);
 
-// expose app           
+// expose app
 exports = module.exports = app;

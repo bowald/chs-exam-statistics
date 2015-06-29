@@ -12,7 +12,8 @@
     "method-override": "~2.0.2",
     "debug": "^2.1.0",
     "getenv": "^0.3.0",
-    "xlsx": "~0.8.0"
+    "xlsx": "~0.8.0",
+    "hashmap": "~2.0.3"
   },
   "devDependencies": {
     "browser-sync": "~2.7.11",

@@ -1,11 +1,47 @@
 
-var XLSX = require('xlsx'),
+var XLSX    = require('xlsx'),
     HashMap = require('hashmap'),
-    fs = require('fs');
+    fs      = require('fs'),
+    http    = require('http'),
+    ProgressBar = require('progress'),
+    Course  = require('./model/course'),
+    Q       = require('q');
 
-var OUTPUTPATH = __dirname +'/courses.json',
-    INPUTPATH = __dirname + '/Statistik_over_kursresultat-2.xlsx';
+var OUTPUTPATH = '/courses.json',
+    FILENAME ='statistik.xlsx';
 
+// http://document.chalmers.se/download?docid=479628742
+
+// var downloadStatistik = function () {
+//     var options = {
+//         hostname  : 'document.chalmers.se',
+//         port      : 80,
+//         path      : '/download?docid=479628742',
+//         method    : 'GET'
+//     };
+
+//     var file = fs.createWriteStream("app/statistik.xlsx");
+
+//     var req = http.request(options, function(res) {
+//         var len = parseInt(res.headers['content-length'], 10);
+
+//         var bar = new ProgressBar('  downloading [:bar] :percent :etas', {
+//             complete: '=',
+//             incomplete: ' ',
+//             width: 30,
+//             total: len
+//           });
+
+//       console.log("statusCode: ", res.statusCode);
+//       console.log("headers: ", res.headers);
+
+//       res.on('data', function(chunk) {
+//           file.write(chunk);
+//           bar.tick(chunk.length);
+//       });
+//     });
+//     req.end();
+// }
 
 var gradeToKey = function (grade){
     if (grade == 3) return 'three';
@@ -23,18 +59,80 @@ var SaveToFile = function(collection){
           console.log("JSON saved to " + OUTPUTPATH);
         }
     });
+};
+
+var SaveToDb = function (collection) {
+    var bar = new ProgressBar('saving data [:bar] :percent ', {
+                                        complete: '='
+                                      , incomplete: ' '
+                                      , width: 30
+                                      , total: collection.length
+                                    });
+
+    collection.forEach(function (course) {
+        Course.update({code: course.code},{
+            name: course.name,
+            code: course.code,
+            owner: course.owner,
+            $addToSet: {exams:{$each : course.exams}}
+        },
+        {upsert:true},
+        function(err){
+            if(err){
+                console.log(err);
+            }
+        });
+        bar.tick(1);
+    });
 }
 
 module.exports = {
-    parse: function() {
 
+    getStatistics: function () {
+        var deferred = Q.defer();
 
-        var workbook = XLSX.readFile(INPUTPATH);
+        var options = {
+            hostname  : 'document.chalmers.se',
+            port      : 80,
+            path      : '/download?docid=479628742',
+            method    : 'GET'
+        };
 
+        var file = fs.createWriteStream(__dirname + '/' + FILENAME);
+        var req = http.request(options, function(res) {
+          res.on('data', function(chunk) {
+              file.write(chunk);
+          });
+
+          res.on('end', function () {
+              deferred.resolve(FILENAME);
+          })
+        });
+
+        req.on('error', function(err) {
+            //if an error occurs reject the deferred
+            deferred.reject(err);
+        });
+        req.end();
+
+        return deferred.promise;
+    },
+
+    parse: function(filename) {
+        console.log('starting to parse');
+        console.log(__dirname + '/' + filename);
+        var workbook = XLSX.readFile(__dirname + '/' + filename);
+        console.log('parse done');
         var collection = workbook['Sheets'];
 
         var courses = new HashMap();
-        var counter = 1;
+        // var counter = 1;
+        var bar = new ProgressBar('building json [:bar] :percent ', {
+                                        complete: '='
+                                      , incomplete: ' '
+                                      , width: 30
+                                      , total: Object.keys(collection).length
+                                    });
 
         for (var key in collection) {
             if (collection.hasOwnProperty(key)) {
@@ -87,9 +185,8 @@ module.exports = {
                     }
                 }
             }
-            console.log(Math.floor(counter * (100/Object.keys(collection).length)) + '%');
-            counter++;
+            bar.tick(1);
         }
-        SaveToFile(courses);
+        SaveToDb(courses.values());
     }
 };

@@ -1,3 +1,4 @@
+var models = require('./app/model');
 
 var express        = require('express'),
     app            = express(),
@@ -8,6 +9,7 @@ var express        = require('express'),
 
 
 var db = require('./config/db');
+
 
 var port = process.env.PORT || 8080;
 
@@ -36,8 +38,19 @@ require('./app/routes')(app); // configure our routes
 
 // start app ===============================================
 // startup our app at http://localhost:8080
-updateDb.parse();
+
+updateDb.getStatistics().then(
+    function (filename) {
+        updateDb.parse(filename);
+    },
+    function (err) {
+        console.log(err);
+    });
+// updateDb.parse();
+
+
 // app.listen(port);
+
 
 // shoutout to the user
 // console.log('Magic happens on port ' + port);

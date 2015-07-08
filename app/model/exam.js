@@ -7,6 +7,6 @@ var examSchema = new Schema({
     four: {type: Number, default: 0},
     five: {type: Number, default: 0},
     notPassed: {type: Number, default: 0}
-});
+},{ _id : false });
 
 module.exports = mongoose.model('Exam', examSchema);

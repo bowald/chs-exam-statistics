@@ -1,17 +1,14 @@
-angular.module('appRoutes',[]).config(['$routeProvider', '$locationProvider', function($routeProvider,$locationProvider){
+angular
+  .module('appRoutes',[])
+  .config(['$routeProvider', '$locationProvider', function($routeProvider,$locationProvider){
 
-  $routeProvider
-  
-    .when('/', {
-      templateUrl: 'views/home.html',
-      controller: 'MainController'
-    })
+    $routeProvider
 
-    .when('/course', {
-      templateUrl: 'views/course.html',
-      controller: 'CourseController'
-    });
+      .when('/', {
+        templateUrl: 'views/home.html',
+        controller: 'SearchController'
+      });
 
-  $locationProvider.html5Mode(true);
+    $locationProvider.html5Mode(true);
 
-}]);
+  }]);

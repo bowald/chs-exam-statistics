@@ -1,1 +1,1 @@
-angular.module('sampleApp', ['ngRoute', 'appRoutes', 'MainCtrl', 'CourseCtrl', 'CourseService']);
+angular.module('tenta', ['ngRoute', 'appRoutes', 'search']);

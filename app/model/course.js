@@ -3,7 +3,7 @@ var Schema    = mongoose.Schema;
 var ExamSchema = mongoose.model('Exam').schema;
 
 var courseSchema = new Schema({
-    code: {type:String, required:true},
+    code: {type:String, required:true, unique:true},
     name: {type:String, required:true},
     owner: {type:String, required:true},
     exams: [ExamSchema]

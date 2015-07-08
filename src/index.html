@@ -9,29 +9,21 @@
     <link rel="stylesheet" href="tentaStatestik.min.css"> <!-- custom styles -->
 </head>
 <body ng-app="sampleApp" ng-controller="CourseController">
-<div class="container">
-
-    <!-- HEADER -->
-    <nav class="navbar navbar-inverse">
-        <div class="navbar-header">
-            <a class="navbar-brand" href="/">Stencil: Node and Angular</a>
-        </div>
-
-        <!-- LINK TO OUR PAGES. ANGULAR HANDLES THE ROUTING HERE -->
-        <ul class="nav navbar-nav">
-            <li><a href="/course">Course</a></li>
-        </ul>
-    </nav>
+    <header>
+        Tentastatestik
+    </header>
+    <div id="searchContainer">
+        <input type="text" class="form-control">
+    </div>
 
     <!-- ANGULAR DYNAMIC CONTENT -->
     <div ng-view></div>
 
-</div>
 </body>
 
     <!-- bower:js -->
     <!-- endbower -->
 
     <script src="bundle.js"></script>
-    
+
 </html>

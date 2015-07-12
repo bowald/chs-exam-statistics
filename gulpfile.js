@@ -80,7 +80,7 @@ gulp.task('bower', function(){
 gulp.task('inject',['views','bower'], function() {
     gulp.src( base.dist + 'index.html')
         .pipe(wiredep({
-            exclude: ['bootstrap.css', 'bootstrap.js']
+            exclude: ['bootstrap.css']
         }))
         .pipe(gulp.dest(base.dist));
 });

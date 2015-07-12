@@ -4,8 +4,10 @@ angular
 
         var factory = {};
 
-        factory.getCourses = function() {
-            return $http.get('dummydata/dummy-Courses.json');
+        factory.getCourses = function(searchterm) {
+            return $http.get('api/courses', { params:{
+                searchterm: searchterm}
+            });
         };
 
         return factory;

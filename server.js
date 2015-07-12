@@ -10,7 +10,6 @@ var express        = require('express'),
 
 var db = require('./config/db');
 
-
 var port = process.env.PORT || 8080;
 
 
@@ -34,25 +33,30 @@ app.use(methodOverride('X-HTTP-Method-Override'));
 app.use(express.static(__dirname + '/dist'));
 
 // routes ==================================================
-require('./app/routes')(app); // configure our routes
+
+require('./app/courseApi').setup(app);
+require('./app/routes')(app);
+
 
 // start app ===============================================
 // startup our app at http://localhost:8080
 
-updateDb.getStatistics().then(
-    function (filename) {
-        updateDb.parse(filename);
-    },
-    function (err) {
-        console.log(err);
-    });
-// updateDb.parse();
 
+// updateDb.parse('statistik.xlsx');
+
+// updateDb.getStatistics().then(
+//     function (filename) {
+//         // Unable to parse without delay, even if waiting for promise. Fix?
+//         setTimeout(function (hello) {
+//             updateDb.parse(filename);
+//         },20);
+//     },
+//     function (err) {
+//         console.log(err);
+//     });
 
 // app.listen(port);
 
-
-// shoutout to the user
 // console.log('Magic happens on port ' + port);
 
 // expose app

@@ -10,39 +10,6 @@ var XLSX    = require('xlsx'),
 var OUTPUTPATH = '/courses.json',
     FILENAME ='statistik.xlsx';
 
-// http://document.chalmers.se/download?docid=479628742
-
-// var downloadStatistik = function () {
-//     var options = {
-//         hostname  : 'document.chalmers.se',
-//         port      : 80,
-//         path      : '/download?docid=479628742',
-//         method    : 'GET'
-//     };
-
-//     var file = fs.createWriteStream("app/statistik.xlsx");
-
-//     var req = http.request(options, function(res) {
-//         var len = parseInt(res.headers['content-length'], 10);
-
-//         var bar = new ProgressBar('  downloading [:bar] :percent :etas', {
-//             complete: '=',
-//             incomplete: ' ',
-//             width: 30,
-//             total: len
-//           });
-
-//       console.log("statusCode: ", res.statusCode);
-//       console.log("headers: ", res.headers);
-
-//       res.on('data', function(chunk) {
-//           file.write(chunk);
-//           bar.tick(chunk.length);
-//       });
-//     });
-//     req.end();
-// }
-
 var gradeToKey = function (grade){
     if (grade == 3) return 'three';
     else if (grade == 4) return 'four';
@@ -51,6 +18,7 @@ var gradeToKey = function (grade){
     else return 'undefined';
 };
 
+//usefull for debugging pourpuses.
 var SaveToFile = function(collection){
     fs.writeFile(OUTPUTPATH, JSON.stringify(collection, null, 4), function(err) {
         if(err) {
@@ -120,13 +88,11 @@ module.exports = {
 
     parse: function(filename) {
         console.log('starting to parse');
-        console.log(__dirname + '/' + filename);
         var workbook = XLSX.readFile(__dirname + '/' + filename);
         console.log('parse done');
         var collection = workbook['Sheets'];
 
         var courses = new HashMap();
-        // var counter = 1;
         var bar = new ProgressBar('building json [:bar] :percent ', {
                                         complete: '='
                                       , incomplete: ' '

@@ -1,1 +1,1 @@
-angular.module('tenta', ['ngRoute', 'appRoutes', 'search']);
+angular.module('tenta', ['ngRoute', 'appRoutes','smart-table']);

@@ -5,9 +5,10 @@ angular
     $routeProvider
 
       .when('/', {
-        templateUrl: 'views/home.html',
-        controller: 'SearchController'
+        templateUrl: 'views/course.html'
+        // controller: 'SearchCtrl'
       });
+
 
     $locationProvider.html5Mode(true);
 

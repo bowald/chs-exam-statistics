@@ -30,14 +30,16 @@ angular
 
         coursesPromise.then(function(res){
             searching = false;
-            var courses = res.data;
+            $scope.rowCollection = res.data;
 
-            $timeout(function () {
-                $scope.$apply(function () {
-                    $scope.courses = courses;
-                });
-            });
+            // $timeout(function () {
+            //     $scope.$apply(function () {
+            //         $scope.courses = courses;
+            //     });
+            // });
 
         });
+
+        $scope.displayedCollection = [].concat($scope.rowCollection);
     }
   }]);

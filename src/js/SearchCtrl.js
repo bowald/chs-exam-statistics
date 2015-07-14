@@ -1,6 +1,6 @@
 angular
   .module('tenta')
-  .controller('SearchCtrl',['$scope','$timeout','SearchFactory', function($scope, $timeout, SeachFactory){
+  .controller('SearchCtrl',['$scope','$timeout', '$state', 'SearchFactory', function($scope, $timeout, $state, SeachFactory){
 
     var searching = false;
     var emptySearch = {
@@ -11,11 +11,16 @@ angular
 
     $scope.$watch('search', function () {
         if($scope.search.name.length === 3 && !searching){
+            $state.go('search.list');
             getData($scope.search.name);
         }
         else if ($scope.search.name.length < 3){
-            console.log('asdsdasdsdadsa');
-            $scope.search = emptySearch;
+            console.log('please kill');
+            $timeout(function () {
+                $scope.$apply(function () {
+                    $scope.courses = [];
+                });
+            });
         }
     },true);
 
@@ -26,7 +31,6 @@ angular
         coursesPromise.then(function(res){
             searching = false;
             var courses = res.data;
-            console.log(courses);
 
             $timeout(function () {
                 $scope.$apply(function () {

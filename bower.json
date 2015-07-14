@@ -6,7 +6,7 @@
     "font-awesome": "latest",
     "animate.css": "latest",
     "angular": "latest",
-    "angular-route": "latest",
-    "angular-smart-table": "~2.1.0"
+    "angular-smart-table": "~2.1.0",
+    "angular-ui-router": "~0.2.15"
   }
 }

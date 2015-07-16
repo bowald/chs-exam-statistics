@@ -1,0 +1,16 @@
+<table st-table="displayedCollection" st-safe-src="rowCollection" class="table table-striped">
+    <thead>
+    <tr>
+        <th st-sort="name">Coursename</th>
+        <th st-sort="code">Code</th>
+        <th st-sort="owner">owner</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr ng-repeat="course in displayedCollection | filter:search" class="list-row" ng-click="stats(course.code)">
+        <td>{{course.name}}</td>
+        <td>{{course.code}}</td>
+        <td>{{course.owner}}</td>
+    </tr>
+    </tbody>
+</table>

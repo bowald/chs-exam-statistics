@@ -21,9 +21,9 @@ angular
             })
 
             .state('search.statistics', {
-                url: '/statistics/:course',
-                templateUrl: 'views/search.statistics.html'
-                // controller: 'statisticsCtrl'
+                url: '/statistics/:code',
+                templateUrl: 'views/search.statistics.html',
+                controller: 'StatisticCtrl'
             });
 
     });

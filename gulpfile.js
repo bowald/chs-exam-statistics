@@ -7,7 +7,6 @@ var gulp         = require('gulp'),
     autoprefixer = require('gulp-autoprefixer'),
     minifycss    = require('gulp-minify-css'),
     rename       = require('gulp-rename'),
-    notify       = require('gulp-notify'),
     browserSync  = require('browser-sync'),
     jshint       = require('gulp-jshint'),
     concat       = require('gulp-concat'),
@@ -54,8 +53,7 @@ gulp.task('scripts', function () {
                 .pipe(concat('bundle.js'))
                 .pipe(babel())
                 .pipe(stripLine('use strict'))
-                .pipe(gulp.dest(base.dist))
-                .pipe(notify({ message: 'Scripts task complete' }));
+                .pipe(gulp.dest(base.dist));
 });
 
 //build less.
@@ -66,8 +64,7 @@ gulp.task('styles', function() {
                 .pipe(gulp.dest(base.dist))
                 .pipe(rename({suffix: '.min'}))
                 .pipe(minifycss())
-                .pipe(gulp.dest(base.dist))
-                .pipe(notify({ message: 'Styles task complete' }));
+                .pipe(gulp.dest(base.dist));
 });
 
 //Download bower components
@@ -91,8 +88,7 @@ gulp.task('views',['clean-views'], function() {
         .pipe(gulp.dest(base.dist));
     gulp.src([config.html[1],config.html[2]])
         .pipe(flatten())
-        .pipe(gulp.dest( base.dist + 'views/'))
-        .pipe(notify({ message: 'Views task complete' }));
+        .pipe(gulp.dest( base.dist + 'views/'));
 });
 
 

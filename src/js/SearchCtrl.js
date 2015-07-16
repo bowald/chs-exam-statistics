@@ -24,6 +24,11 @@ angular
         }
     },true);
 
+    $scope.stats = function(code) {
+        $state.go('search.statistics',{code: code});
+        console.log(code);
+    };
+
     function getData (searchTerm) {
         searching = true;
         var coursesPromise = SeachFactory.getCourses(searchTerm);
@@ -31,13 +36,6 @@ angular
         coursesPromise.then(function(res){
             searching = false;
             $scope.rowCollection = res.data;
-
-            // $timeout(function () {
-            //     $scope.$apply(function () {
-            //         $scope.courses = courses;
-            //     });
-            // });
-
         });
 
         $scope.displayedCollection = [].concat($scope.rowCollection);

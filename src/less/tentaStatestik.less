@@ -1,9 +1,9 @@
 @import "../../dist/vendor/bootstrap/less/bootstrap";
 
-@bgcolor: #3FC380;
+@bgcolor: #f0efee;
 
 body {
-  // background-color: @bgcolor;
+  background-color: @bgcolor;
   font-family: "Open Sans","Helvetica Neue",Helvetica,Arial,sans-serif;
   font-size: 14px;
   line-height: 20px;
@@ -22,4 +22,174 @@ header {
 
 .st-sort-descent:before{
     content: '\25BC';
+}
+
+// input[type="text"] {
+//   display:block;
+//   margin:0;
+//   width:100%;
+//   font-family:sans-serif;
+//   font-size:18px;
+//   appearance:none;
+//   box-shadow:none;
+//   border-radius:none;
+//   :focus {
+//     outline:none;
+//   }
+// }
+// .style-4 input[type="text"] {
+//   padding: 10px;
+//   border: solid 1px #fff;
+//   box-shadow: inset 1px 1px 2px 0 #707070;
+//   transition: box-shadow 0.3s;
+//   :focus, .focus {
+//     box-shadow: inset 1px 1px 2px 0 #c9c9c9;
+//   }
+// }
+
+.input {
+  position: relative;
+  z-index: 1;
+  display: inline-block;
+  margin: 1em;
+  max-width: 400px;
+  width: calc(100% - 2em);
+  vertical-align: top;
+}
+
+.input__field {
+  position: relative;
+  display: block;
+  float: right;
+  padding: 0.8em;
+  width: 60%;
+  border: none;
+  border-radius: 0;
+  background: #f0f0f0;
+  color: #aaa;
+  font-weight: 400;
+  font-family: "Avenir Next", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  -webkit-appearance: none; /* for box shadows to show on iOS */
+}
+
+.input__field:focus {
+  outline: none;
+}
+
+.input__label {
+  display: inline-block;
+  float: right;
+  padding: 0 1em;
+  width: 40%;
+  color: #6a7989;
+  font-weight: bold;
+  font-size: 70.25%;
+  -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+.input__label-content {
+  position: relative;
+  display: block;
+  padding: 1.6em 0;
+  width: 100%;
+}
+
+.graphic {
+  position: absolute;
+  top: 0;
+  left: 0;
+  fill: none;
+}
+
+.icon {
+  color: #ddd;
+  font-size: 150%;
+}
+
+
+/* Nao */
+.input--nao {
+  overflow: hidden;
+  padding-top: 1em;
+}
+
+.input__field--nao {
+  padding: 0.5em 0em 0.25em;
+  width: 100%;
+  background: transparent;
+  color: #9da8b2;
+  font-size: 2.75em;
+}
+
+.input__label--nao {
+  position: absolute;
+  top: 1.25em;
+  font-size: 1.25em;
+  left: 0;
+  display: block;
+  width: 100%;
+  text-align: left;
+  padding: 0em;
+  pointer-events: none;
+  -webkit-transform-origin: 0 0;
+  transform-origin: 0 0;
+  -webkit-transition: -webkit-transform 0.3s 0.1s, color 1s;
+  transition: transform 0.3s 0.1s, color 1s;
+  -webkit-transition-timing-function: cubic-bezier(0, 0.25, 0.5, 1);
+  transition-timing-function: cubic-bezier(0, 0.25, 0.5, 1);
+}
+
+.graphic--nao {
+  stroke: #92989e;
+  pointer-events: none;
+  -webkit-transition: -webkit-transform 0.7s, stroke 0.7s;
+  transition: transform 0.7s, stroke 0.7s;
+  -webkit-transition-timing-function: cubic-bezier(0, 0.25, 0.5, 1);
+  transition-timing-function: cubic-bezier(0, 0.25, 0.5, 1);
+}
+
+.animation-override-label {
+  color: #333;
+  -webkit-transform: translate3d(0, -1.50em, 0) scale3d(0.70, 0.70, 1);
+  transform: translate3d(0, -1.50em, 0) scale3d(0.70, 0.70, 1);
+}
+
+.animation-override-graphic {
+  stroke: #333;
+  -webkit-transform: translate3d(-66.6%, 0, 0);
+  transform: translate3d(-66.6%, 0, 0);
+}
+
+.input__field--nao:focus + .input__label--nao,
+.input--filled .input__label--nao {
+  color: #333;
+  -webkit-transform: translate3d(0, -1.50em, 0) scale3d(0.70, 0.70, 1);
+  transform: translate3d(0, -1.50em, 0) scale3d(0.70, 0.70, 1);
+}
+
+.input__field--nao:focus ~ .graphic--nao,
+.input--filled .graphic--nao {
+  stroke: #333;
+  -webkit-transform: translate3d(-66.6%, 0, 0);
+  transform: translate3d(-66.6%, 0, 0);
+}
+
+.list-row{
+  :hover {
+    background-color: #333;
+    color: #aaa;
+  }
+}
+
+table{
+  font-weight: 400;
+  font-family: "Avenir Next", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  color: #4e5358;
 }

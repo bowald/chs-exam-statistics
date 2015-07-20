@@ -2,25 +2,17 @@ angular
   .module('tenta')
   .controller('SearchCtrl',['$scope','$timeout', '$state', 'SearchFactory', function($scope, $timeout, $state, SeachFactory){
 
-    var searching = false;
-    var emptySearch = {
-        name: ''
-    };
+    var downloading = false;
 
-    $scope.search = emptySearch;
-
-    $scope.$watch('search', function () {
-        if($scope.search.name.length === 3 && !searching){
-            $state.go('search.list');
-            getData($scope.search.name);
-        }
-        else if ($scope.search.name.length < 3){
-            console.log('please kill');
-            $timeout(function () {
-                $scope.$apply(function () {
-                    $scope.courses = [];
-                });
-            });
+    $scope.$watch('search', function (newVal,oldVal) {
+        if(newVal !== oldVal){
+            if(newVal.length > 2){
+                $state.go('search.list');
+                getData($scope.search);
+            }
+            else if (!newVal.length){
+                $state.go('search');
+            }
         }
     },true);
 
@@ -30,11 +22,11 @@ angular
     };
 
     function getData (searchTerm) {
-        searching = true;
+        downloading = true;
         var coursesPromise = SeachFactory.getCourses(searchTerm);
 
         coursesPromise.then(function(res){
-            searching = false;
+            downloading = false;
             $scope.rowCollection = res.data;
         });
 

@@ -1,4 +1,4 @@
-'use strict'
+'use strict';
 var mongoose    = require('mongoose'),
     express     = require('express'),
     courseRoute = express.Router();
@@ -10,10 +10,12 @@ module.exports = {
     setup: function(app){
 
         courseRoute.get('/api/courses', function (req, res) {
-            console.log(req.query.searchterm);
-            Course.find({ name:  new RegExp(req.query.searchterm, "i")}, function (err, courses) {
+            var term = new RegExp(req.query.searchterm, 'i');
+            Course.find({ $or: [{name:  term}, {code: term}, {owner: term} ]}, function (err, courses) {
                 if(err){res.status(500).send(err);}
-                res.json(courses);
+                else{
+                    res.json(courses);
+                }
             });
 
 

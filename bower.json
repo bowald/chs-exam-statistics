@@ -8,6 +8,9 @@
     "angular": "latest",
     "angular-smart-table": "~2.1.0",
     "angular-ui-router": "~0.2.15",
-    "angular-google-chart": "~0.0.11"
+    "angularjs-nvd3-directives": "~0.0.7"
+  },
+  "resolutions": {
+    "d3": "~3.4.1"
   }
 }

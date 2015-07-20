@@ -14,7 +14,6 @@ angular
             var cachehit = cache.get(searchterm);
 
             if(cachehit === undefined){
-                console.log('getting from be');
                 $http
                     .get('api/courses', {
                         params:{
@@ -34,7 +33,6 @@ angular
                     );
             }
             else{
-                console.log('HIT!!!!!!');
                 deferred.resolve(cachehit);
             }
 

@@ -3,6 +3,7 @@ angular
   .controller('SearchCtrl',['$scope','$timeout', '$state', 'SearchFactory', function($scope, $timeout, $state, SeachFactory){
 
     var downloading = false;
+    $state.go('search');
 
     $scope.$watch('search', function (newVal,oldVal) {
         if(newVal !== oldVal){

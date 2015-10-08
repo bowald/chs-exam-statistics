@@ -39,25 +39,29 @@ require('./app/routes')(app);
 
 
 // start app ===============================================
-// startup our app at http://localhost:8080
+
+// TO BE ABLE TO USE GULP COMMENT THIS!
+downloadAndUpdate();
+// When using gulp run downloadAndUpdate() once to store data in db, then comment it away.
+
+// update db every 24 hours.
+setInterval(downloadAndUpdate, 86400000);
 
 
-// updateDb.parse('statistik.xlsx');
+function downloadAndUpdate() {
+  updateDb.getStatistics().then(
+    function (filename) {
+        // Unable to parse without delay, even if waiting for promise. Fix?
+        setTimeout(function (hello) {
+            updateDb.parse(filename);
+        },20);
+    },
+    function (err) {
+        console.log(err);
+    });
+}
 
-// updateDb.getStatistics().then(
-//     function (filename) {
-//         // Unable to parse without delay, even if waiting for promise. Fix?
-//         setTimeout(function (hello) {
-//             updateDb.parse(filename);
-//         },20);
-//     },
-//     function (err) {
-//         console.log(err);
-//     });
 
-// app.listen(port);
-
-// console.log('Magic happens on port ' + port);
 
 // expose app
 exports = module.exports = app;

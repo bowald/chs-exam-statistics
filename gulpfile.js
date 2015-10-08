@@ -37,7 +37,6 @@ var config = {
 };
 
 
-
 //Javascript linting
 gulp.task('lint', function(){
     gulp.src(config.scripts)

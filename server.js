@@ -5,16 +5,12 @@ var express        = require('express'),
     bodyParser     = require('body-parser'),
     methodOverride = require('method-override'),
     mongoose       = require('mongoose'),
+    getenv         = require('getenv'),
     updateDb       = require('./app/updateDb.js');
 
 
-var db = require('./config/db');
-
-var port = process.env.PORT || 8080;
-
-
 // connect to mongoDB database
-mongoose.connect(db.url);
+mongoose.connect(getenv('MONGO_URI'));
 
 // get all data/stuff of the body (POST) parameters
 // parse application/json
@@ -47,7 +43,6 @@ downloadAndUpdate();
 // update db every 24 hours.
 setInterval(downloadAndUpdate, 86400000);
 
-
 function downloadAndUpdate() {
   updateDb.getStatistics().then(
     function (filename) {
@@ -60,8 +55,6 @@ function downloadAndUpdate() {
         console.log(err);
     });
 }
-
-
 
 // expose app
 exports = module.exports = app;

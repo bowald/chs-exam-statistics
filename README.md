@@ -6,12 +6,21 @@ Have I coded an web app to easy show statistics of different chalmers courses.
 
 How to hack on this?
 --------------------
+- create env.json
 - start mongod
-- create ```config/db.js```, export url to a mongod DB.   (TODO: add env.json)
-- run ```node bin/www```, to download and parse excel files (TODO: fix gulpfile)
-- quit node
-- open server.js and comment downloadAndParse()
-- run ```gulp```
+- run ```npm install```
+- run ```gulp``` (gulp serves a node server on PORT in env and a BrowserSync Proxy on port 4000)
+
+Environment
+----------
+Create a ```env.json``` in project root and set the URI for mongo and a port of your choice.
+
+```
+{
+  "MONGO_URI": "mongodb://localhost/XXXXXXXXXXX",
+  "PORT":3000
+}
+```
 
 TODO
 -------
@@ -24,12 +33,6 @@ For example Top 3 hardest courses (most fails) on Chalmers, Top 3 easiest...
 
 ### Implement public API
 To easy get access to course statics some cool end-points needs to be implemented and some boring documentation needs to be written.
-
-### Add db config to environment
-To make installation easier, add a env.json containing db connection.
-
-### Fix Gulp-file
-Since nodeomon restarts on server side changes and the server starts with downloading the statistics and updates db, one have to make a fix for this
 
 License
 -------

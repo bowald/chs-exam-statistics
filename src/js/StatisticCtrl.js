@@ -17,6 +17,7 @@ angular
     $scope.series = ['U','3','4','5'];
     $scope.labels = data.date;
     $scope.data = [data.notPassed, data.three, data.four, data.five];
+    $scope.colors = ['#F03118','#A9D63F','#8AB029','#5C7E0E'];
 
     function extractData(exams){
         sortedExams = sortByDates(exams);

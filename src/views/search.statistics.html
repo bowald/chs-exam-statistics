@@ -1,13 +1,9 @@
 <h2>{{currentCourse.code}}</h2>
 <h2>{{currentCourse.owner}}</h2>
 
-<nvd3-stacked-area-chart
-        data="exampleData"
-        id="exampleId"
-        showXAxis="true"
-        showYAxis="true"
-        width="750"
-        height="550">
-            <svg></svg>
-</nvd3-stacked-area-chart>
-<!-- {{chartObject}} -->
+<canvas id="bar" class="chart chart-bar"
+  chart-data="data"
+  chart-labels="labels"
+  chart-legend="legend"
+  chart-series="series">
+</canvas>

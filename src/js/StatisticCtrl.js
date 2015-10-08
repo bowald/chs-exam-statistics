@@ -2,59 +2,64 @@ angular
   .module('tenta')
   .controller('StatisticCtrl',['$scope','$timeout', '$state', '$stateParams', function($scope, $timeout, $state, $stateParams){
 
+    // Get all data and puts it in currentCours
     $scope.rowCollection.some(function (element) {
         if(element['code'] === $stateParams.code){
             $scope.currentCourse = element;
             return true;
         }
     });
+    var data = extractData($scope.currentCourse.exams);
 
-    $scope.exampleData = toStatRow($scope.currentCourse.exams);
-    console.log($scope.exampleData);
+    data.date = datasToString(data.date);
+    console.log(data);
+    $scope.legend = true;
+    $scope.series = ['U','3','4','5'];
+    $scope.labels = data.date;
+    $scope.data = [data.notPassed, data.three, data.four, data.five];
 
-    //FIXME: fix so dates works.
+    function extractData(exams){
+        sortedExams = sortByDates(exams);
 
-    function toStatRow (exams) {
-        var data = [];
+        var data = {
+            'date' : [],
+            'notPassed' : [],
+            'three' : [],
+            'four' : [],
+            'five' : []
+        };
 
-        data.push({key: 'notPassed', values: []});
-        data.push({key: 'three', values: []});
-        data.push({key: 'four', values: []});
-        data.push({key: 'five', values: []});
-
-        var i = 0
-        exams.forEach(function (exam) {
+        sortedExams.forEach(function (exam) {
             for(var key in exam){
                 if(exam.hasOwnProperty(key)){
-                    if(key !== 'date'){
-                        var res = [];
-                        var index = i
-                        res.push(index);
-                        res.push(exam[key]);
-
-                        put(data,key,res);
-                    }
+                    data[key].push(exam[key]);
                 }
             }
-            i++;
         });
 
         return data;
     }
 
-    function put(data,key,value) {
-        data.some(function (element) {
-            if(element['key'] === key){
-                element['values'].push(value);
-                return true;
-            }
+    function sortByDates(exams){
+        return exams.sort(function(a, b) {
+            return new Date(a.date) - new Date(b.date);
         });
     }
 
-    $scope.xAxisTickFormatFunction = function(){
-        return function(d){
-            return d3.time.format('%x')(new Date(d));  //uncomment for date format
-        }
-    };
+    function datasToString(dates){
+        var labels = [];
+        dates.forEach(function (date) {
+            var d = new Date(date);
+            var yyyy = d.getFullYear().toString();
+            var mm = (d.getMonth()+1).toString(); // getMonth() is zero-based
+            var dd  = d.getDate().toString();
+            labels.push(yyyy + '-' + (mm[1]?mm:'0'+mm[0]) + '-' + (dd[1]?dd:'0'+dd[0]));
+        });
+
+        return labels;
+    }
+
+
+
 
   }]);

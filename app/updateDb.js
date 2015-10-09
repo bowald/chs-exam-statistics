@@ -90,6 +90,8 @@ module.exports = {
 
     parse: function(filename) {
         console.log('starting to parse');
+        console.log('resding from:');
+        console.log(__dirname + '/' + filename);
         var workbook = XLSX.readFile(__dirname + '/' + filename);
         console.log('parse done');
         var collection = workbook['Sheets'];

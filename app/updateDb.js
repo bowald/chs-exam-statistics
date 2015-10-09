@@ -73,12 +73,14 @@ module.exports = {
           });
 
           res.on('end', function () {
-              deferred.resolve(FILENAME);
+                console.log('finished downloading the file')
+                deferred.resolve(FILENAME);
           })
         });
 
         req.on('error', function(err) {
             //if an error occurs reject the deferred
+            console.log(err);
             deferred.reject(err);
         });
         req.end();

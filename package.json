@@ -30,10 +30,7 @@
     "gulp-rename": "~1.2.2",
     "gulp-sourcemaps": "~1.5.2",
     "underscore": "^1.8.3",
-    "wiredep": "^1.8.6"
-
-  },
-  "devDependencies": {
+    "wiredep": "^1.8.6",
     "browser-sync": "~2.7.11",
     "chai": "~3.0.0",
     "gulp-nodemon": "^1.0.4",
@@ -41,6 +38,10 @@
     "mocha": "^2.1.0",
     "mocha-mongoose": "~1.0.4",
     "mongodb": "~1.4.38"
+
+  },
+  "devDependencies": {
+
   },
   "scripts": {
     "start": "node ./bin/www",

@@ -9,16 +9,13 @@ var gulp         = require('gulp'),
     minifycss    = require('gulp-minify-css'),
     rename       = require('gulp-rename'),
     browserSync  = require('browser-sync'),
-    jshint       = require('gulp-jshint'),
     concat       = require('gulp-concat'),
-    babel        = require('gulp-babel'),
     bower        = require('gulp-bower'),
     flatten      = require('gulp-flatten'),
     clean        = require('gulp-clean'),
     ngfilesort   = require('gulp-angular-filesort'),
     naturalsort  = require('gulp-natural-sort'),
-    watch        = require('gulp-watch'),
-    stripLine    = require('gulp-strip-line');
+    watch        = require('gulp-watch');
 
 
 //main paths
@@ -46,8 +43,6 @@ gulp.task('scripts', function () {
                 .pipe(naturalsort())
                 .pipe(ngfilesort())
                 .pipe(concat('bundle.js'))
-                .pipe(babel())
-                .pipe(stripLine('use strict'))
                 .pipe(gulp.dest(dir.dist));
 });
 

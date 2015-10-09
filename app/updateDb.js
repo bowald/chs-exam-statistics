@@ -30,7 +30,6 @@ var SaveToFile = function(collection){
 };
 
 var SaveToDb = function (collection) {
-    console.log('SaveToDb');
     var bar = new ProgressBar('saving data [:bar] :percent ', {
                                         complete: '='
                                       , incomplete: ' '
@@ -39,6 +38,8 @@ var SaveToDb = function (collection) {
                                     });
 
     collection.forEach(function (course) {
+        console.log('========== wants to insert =============')
+        console.log('course')
         Course.update({code: course.code},{
             name: course.name,
             code: course.code,

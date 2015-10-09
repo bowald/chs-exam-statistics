@@ -30,6 +30,8 @@ var SaveToFile = function(collection){
 };
 
 var SaveToDb = function (collection) {
+    console.log('SaveToDb')
+    console.log(collection)
     var bar = new ProgressBar('saving data [:bar] :percent ', {
                                         complete: '='
                                       , incomplete: ' '

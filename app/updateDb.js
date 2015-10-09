@@ -73,7 +73,7 @@ module.exports = {
           });
 
           res.on('end', function () {
-                console.log('finished downloading the file')
+                console.log(file)
                 deferred.resolve(FILENAME);
           })
         });

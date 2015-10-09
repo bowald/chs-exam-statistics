@@ -30,8 +30,6 @@ var SaveToFile = function(collection){
 };
 
 var SaveToDb = function (collection) {
-    console.log('SaveToDb')
-    console.log(collection)
     var bar = new ProgressBar('saving data [:bar] :percent ', {
                                         complete: '='
                                       , incomplete: ' '
@@ -40,8 +38,6 @@ var SaveToDb = function (collection) {
                                     });
 
     collection.forEach(function (course) {
-        console.log('========== wants to insert =============')
-        console.log('course')
         Course.update({code: course.code},{
             name: course.name,
             code: course.code,
@@ -77,7 +73,6 @@ module.exports = {
           });
 
           res.on('end', function () {
-                console.log(file)
                 deferred.resolve(FILENAME);
           })
         });
@@ -93,9 +88,7 @@ module.exports = {
     },
 
     parse: function(filename) {
-        console.log('starting to parse');
         var workbook = XLSX.readFile(__dirname + '/' + filename);
-        console.log('parse done');
         var collection = workbook['Sheets'];
 
         var courses = new HashMap();
@@ -108,14 +101,15 @@ module.exports = {
 
         for (var key in collection) {
             if (collection.hasOwnProperty(key)) {
-                var isCourseSheet = /^20\d\d_20\d\d$/;
+                var isCourseSheet = /20\d\d_20\d\d$/;
+                // Itterate over sheets in excel doc
                 if(isCourseSheet.test(key)){
                     sheet = collection[key];
-
                     //range: [first column, last column]
                     var range = sheet['!ref'].split(':');
                     var numberOfRows = range[1].substr(1);
 
+                    // Itterate over rows in sheet
                     for (i = 1; i < numberOfRows+1; i++) {
                         if (sheet.hasOwnProperty('F' + i)){
                             isExam = sheet['F' + i]['v'].toLowerCase() == 'tentamen';
@@ -126,7 +120,6 @@ module.exports = {
                                 course.code  = sheet['A' + i]['v'].toUpperCase();
                                 course.name  = sheet['B' + i]['v'].toLowerCase();
                                 course.owner = sheet['D' + i]['v'].toLowerCase();
-
                                 var grade = gradeToKey(sheet['I' + i]['v']);
                                 if (grade != 'undefined'){
                                     exam = {}

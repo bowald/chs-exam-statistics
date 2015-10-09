@@ -30,6 +30,7 @@ var SaveToFile = function(collection){
 };
 
 var SaveToDb = function (collection) {
+    console.log('SaveToDb');
     var bar = new ProgressBar('saving data [:bar] :percent ', {
                                         complete: '='
                                       , incomplete: ' '
@@ -90,8 +91,6 @@ module.exports = {
 
     parse: function(filename) {
         console.log('starting to parse');
-        console.log('resding from:');
-        console.log(__dirname + '/' + filename);
         var workbook = XLSX.readFile(__dirname + '/' + filename);
         console.log('parse done');
         var collection = workbook['Sheets'];

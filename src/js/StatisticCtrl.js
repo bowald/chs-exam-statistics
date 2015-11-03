@@ -21,6 +21,7 @@ angular
 
     function dateToScope (code, collection) {
         $scope.currentCourse = getCourseFromCollection(code, collection);
+        calculateAvrage($scope.currentCourse.exams);
 
         var data = extractData($scope.currentCourse.exams);
 
@@ -85,7 +86,22 @@ angular
         return course;
     }
 
+    function calculateAvrage (exams) {
+        var students = 0;
+        var totGrade = 0;
+        exams.forEach(function (exam) {
+            totGrade = totGrade + exam.three * 3 + exam.four * 4 + exam.five * 5;
+            students = students + exam.three + exam.four + exam.five;
+        });
 
+        if(students != 0){
+            $scope.average = Math.round(totGrade/students * 100)/100;
+        }
+        else {
+            $scope.average = "-";
+        }
+        $scope.numOfStudens = students;
+    }
 
 
   }]);

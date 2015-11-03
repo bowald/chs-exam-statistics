@@ -1,5 +1,14 @@
-<h3 class='capitalize'>{{currentCourse.name}}</h3>
+<div class="row">
+  <div class="col-xs-6">
+    <h3 class='capitalize'>[{{currentCourse.code}}] {{currentCourse.name}}</h3>
+    <span class='details-owner' >{{currentCourse.owner}}</span>
+  </div>
+  <div class="col-xs-6 more-details">
+    Average grade: {{average}}
 
+  </div>
+
+</div>
 <canvas id="bar" class="chart chart-bar"
   chart-data="data"
   chart-labels="labels"

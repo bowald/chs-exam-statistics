@@ -100,6 +100,7 @@ angular
         else {
             $scope.average = "-";
         }
+
         $scope.numOfStudens = students;
     }
 

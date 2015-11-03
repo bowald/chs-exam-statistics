@@ -26,4 +26,17 @@ angular
                 controller: 'StatisticCtrl'
             });
 
-    });
+    })
+
+    .run(['$rootScope', '$location', '$window', function($rootScope, $location, $window){
+        // Send info to analytics
+        $rootScope
+            .$on('$stateChangeSuccess',
+                function(event){
+
+                    if (!$window.ga)
+                        return;
+
+                    $window.ga('send', 'pageview', { page: $location.path() });
+            });
+    }]);

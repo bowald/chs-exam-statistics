@@ -25,6 +25,7 @@ angular
                         function (res) {
                             var result = typeof res === 'undefined' ? null : res;
                             cache.put(searchterm, result);
+
                             deferred.resolve(result);
                         },
                         function (err) {

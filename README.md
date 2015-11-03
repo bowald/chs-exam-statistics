@@ -1,8 +1,7 @@
 Chalmers tentastatistik
 =======================
 
-Since Chalmers publish the statistics for exams in an humongous excel document, hidden in the dark depths of the [studentportalen](https://student.portal.chalmers.se/sv/chalmersstudier/minkursinformation/Sidor/min-kursinformation.aspx).
-Have I coded an web app to easy show statistics of different chalmers courses.
+Chalmers publish the statistics for exams in an humongous excel document, hidden in the dark depths of the [studentportalen](https://student.portal.chalmers.se/sv/chalmersstudier/minkursinformation/Sidor/min-kursinformation.aspx). So I thought there should be an webapp to see the statistics… and now it is. Feel free to contribute!
 
 How to hack on this?
 --------------------
@@ -25,13 +24,10 @@ Create a ```env.json``` in project root and set the URI for mongo and a port of 
 TODO
 -------
 
-### Host on a web server
-I will as soon as possible host this at my web server and link from an domain.
-
-### Implement  Top-lists
+### Top-lists
 For example Top 3 hardest courses (most fails) on Chalmers, Top 3 easiest...
 
-### Implement public API
+### Public API
 To easy get access to course statics some cool end-points needs to be implemented and some boring documentation needs to be written.
 
 License

@@ -1,23 +1,36 @@
 angular
   .module('tenta')
-  .controller('StatisticCtrl',['$scope','$timeout', '$state', '$stateParams', function($scope, $timeout, $state, $stateParams){
+  .controller('StatisticCtrl',['$scope','$timeout', '$state', '$stateParams', 'SearchFactory', function($scope, $timeout, $state, $stateParams, SearchFactory){
 
     // Get all data and puts it in currentCours
-    $scope.rowCollection.some(function (element) {
-        if(element['code'] === $stateParams.code){
-            $scope.currentCourse = element;
-            return true;
-        }
-    });
-    var data = extractData($scope.currentCourse.exams);
+    getCurrentCourse($stateParams.code, $scope.rowCollection);
 
-    data.date = datasToString(data.date);
-    console.log(data);
-    $scope.legend = true;
-    $scope.series = ['U','3','4','5'];
-    $scope.labels = data.date;
-    $scope.data = [data.notPassed, data.three, data.four, data.five];
-    $scope.colors = ['#F03118','#A9D63F','#8AB029','#5C7E0E'];
+    // Reglerteknik
+    function getCurrentCourse(code, collection) {
+        // If the user uses URL directly to Statistic-page
+        if(typeof collection === 'undefined'){
+            var promise = SearchFactory.getCourses(code);
+            promise.then(function (res) {
+                dateToScope (code, res.data);
+            });
+        }
+        else{
+                dateToScope (code, collection);
+        }
+    }
+
+    function dateToScope (code, collection) {
+        $scope.currentCourse = getCourseFromCollection(code, collection);
+
+        var data = extractData($scope.currentCourse.exams);
+
+        data.date = datesToString(data.date);
+        $scope.legend = true;
+        $scope.series = ['U','3','4','5'];
+        $scope.labels = data.date;
+        $scope.data = [data.notPassed, data.three, data.four, data.five];
+        $scope.colors = ['#F03118','#A9D63F','#8AB029','#5C7E0E'];
+    }
 
     function extractData(exams){
         sortedExams = sortByDates(exams);
@@ -47,7 +60,7 @@ angular
         });
     }
 
-    function datasToString(dates){
+    function datesToString(dates){
         var labels = [];
         dates.forEach(function (date) {
             var d = new Date(date);
@@ -58,6 +71,18 @@ angular
         });
 
         return labels;
+    }
+
+    function getCourseFromCollection (code, collection) {
+        var course;
+        collection.some(function (element) {
+            if(element['code'] === code){
+                course = element;
+                return true;
+            }
+        });
+
+        return course;
     }
 
 

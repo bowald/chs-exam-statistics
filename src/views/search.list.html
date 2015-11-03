@@ -3,14 +3,14 @@
     <tr>
         <th st-sort="name">Coursename</th>
         <th st-sort="code">Code</th>
-        <th st-sort="owner">owner</th>
+        <th st-sort="owner">Owner</th>
     </tr>
     </thead>
     <tbody>
     <tr ng-repeat="course in displayedCollection | filter:search" class="list-row" ng-click="stats(course.code)">
-        <td>{{course.name}}</td>
-        <td>{{course.code}}</td>
-        <td>{{course.owner}}</td>
+        <td class="capitalize">{{course.name}}</td>
+        <td class="capitalize">{{course.code}}</td>
+        <td class="capitalize">{{course.owner}}</td>
     </tr>
     </tbody>
 </table>

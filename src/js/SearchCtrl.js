@@ -3,15 +3,16 @@ angular
   .controller('SearchCtrl',['$scope','$timeout', '$state', 'SearchFactory', function($scope, $timeout, $state, SeachFactory){
 
     var downloading = false;
-    $state.go('search');
 
     $scope.$watch('search', function (newVal,oldVal) {
         if(newVal !== oldVal){
             if(newVal.length > 2){
+                // Goto start state
                 $state.go('search.list');
                 getData($scope.search);
             }
             else if (!newVal.length){
+                // Goto start state
                 $state.go('search');
             }
         }
@@ -19,7 +20,6 @@ angular
 
     $scope.stats = function(code) {
         $state.go('search.statistics',{code: code});
-        console.log(code);
     };
 
     function getData (searchTerm) {

@@ -91,7 +91,7 @@ angular
         var totGrade = 0;
         exams.forEach(function (exam) {
             totGrade = totGrade + exam.three * 3 + exam.four * 4 + exam.five * 5;
-            students = students + exam.three + exam.four + exam.five;
+            students = students + exam.three + exam.four + exam.five + exam.notPassed;
         });
 
         if(students != 0){

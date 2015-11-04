@@ -1,11 +1,15 @@
 angular
   .module('tenta')
   .controller('StatisticCtrl',['$scope','$timeout', '$state', '$stateParams', 'SearchFactory', function($scope, $timeout, $state, $stateParams, SearchFactory){
+    // Controller that shows details for a specific course
 
     // Get all data and puts it in currentCours
     getCurrentCourse($stateParams.code, $scope.rowCollection);
 
-    // Reglerteknik
+    // Tool tips
+    $scope.avgGradeTip = 'Average grade based on average result of only passing students.';
+    $scope.avgFailRateTip = 'Average fail rate based on the average of fails per exam.';
+
     function getCurrentCourse(code, collection) {
         // If the user uses URL directly to Statistic-page
         if(typeof collection === 'undefined'){
@@ -21,10 +25,12 @@ angular
 
     function dateToScope (code, collection) {
         $scope.currentCourse = getCourseFromCollection(code, collection);
+
         calculateAvrage($scope.currentCourse.exams);
 
         var data = extractData($scope.currentCourse.exams);
 
+        // Data used for the diagram
         data.date = datesToString(data.date);
         $scope.legend = true;
         $scope.series = ['U','3','4','5'];
@@ -89,18 +95,23 @@ angular
     function calculateAvrage (exams) {
         var students = 0;
         var totGrade = 0;
+        var totFails = 0;
+        var passedStudents = 0;
+        var examFailRate = 0;
         exams.forEach(function (exam) {
-            totGrade = totGrade + exam.three * 3 + exam.four * 4 + exam.five * 5;
-            students = students + exam.three + exam.four + exam.five + exam.notPassed;
+            examFailRate += exam.notPassed / (exam.three + exam.four + exam.five + exam.notPassed);
+            totGrade += exam.three * 3 + exam.four * 4 + exam.five * 5;
+            passedStudents += exam.three + exam.four + exam.five;
         });
 
-        if(students != 0){
-            $scope.average = Math.round(totGrade/students * 100)/100;
+        if(passedStudents != 0){
+            $scope.average = Math.round(totGrade/passedStudents * 100)/100;
         }
         else {
             $scope.average = "-";
         }
 
+        $scope.averageFailRate = Math.round((examFailRate/exams.length) * 100); //Convert to procent
         $scope.numOfStudens = students;
     }
 

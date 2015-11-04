@@ -4,7 +4,7 @@
     <span class='details-owner' >{{currentCourse.owner}}</span>
   </div>
   <div class="col-xs-6 more-details">
-    Average grade: {{average}}
+    <a href="#" uib-tooltip="{{avgGradeTip}}">Grade:</a> {{average}}, <a href="#" uib-tooltip="{{avgFailRateTip}}">Fail rate:</a> {{averageFailRate}} %
 
   </div>
 

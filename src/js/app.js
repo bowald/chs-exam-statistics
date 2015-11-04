@@ -1,6 +1,6 @@
 angular
     .module('tenta', [
-        'ui.router','smart-table', 'chart.js'
+        'ui.router','smart-table', 'chart.js', 'ui.bootstrap'
     ])
 
     .config(function ($stateProvider, $urlRouterProvider) {

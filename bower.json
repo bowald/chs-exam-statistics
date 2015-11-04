@@ -8,7 +8,8 @@
     "angular": "latest",
     "angular-smart-table": "~2.1.0",
     "angular-ui-router": "~0.2.15",
-    "angular-chart.js": "~0.8.4"
+    "angular-chart.js": "~0.8.4",
+    "angular-bootstrap": "~0.14.3"
   },
   "resolutions": {
     "d3": "~3.4.1"

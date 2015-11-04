@@ -10,6 +10,34 @@ angular
     $scope.avgGradeTip = 'Average grade based on average result of only passing students.';
     $scope.avgFailRateTip = 'Average fail rate based on the average of fails per exam.';
 
+    $scope.showPercentage = false;
+
+    $scope.$watch('showPercentage', function (show) {
+        if(show){
+            $scope.data = $scope.percentage;
+        }
+        else{
+            $scope.data = $scope.quantities;
+        }
+    })
+
+    function calculatePercentage(quantityData) {
+
+        var notPassed = [];
+        var threes = [];
+        var fours = [];
+        var fives = [];
+
+        for (i = 0; i < quantityData[0].length; i++) {
+            var totalOnExam = quantityData[0][i] + quantityData[1][i] + quantityData[2][i] + quantityData[3][i];
+            notPassed.push(Math.round(quantityData[0][i]/totalOnExam * 1000) / 10);
+            threes.push(Math.round(quantityData[1][i]/totalOnExam * 1000) / 10);
+            fours.push(Math.round(quantityData[2][i]/totalOnExam * 1000) / 10);
+            fives.push(Math.round(quantityData[3][i]/totalOnExam * 1000) / 10);
+        }
+        return [notPassed, threes, fours, fives];
+    }
+
     function getCurrentCourse(code, collection) {
         // If the user uses URL directly to Statistic-page
         if(typeof collection === 'undefined'){
@@ -32,11 +60,20 @@ angular
 
         // Data used for the diagram
         data.date = datesToString(data.date);
+
+        // Diagram options
         $scope.legend = true;
         $scope.series = ['U','3','4','5'];
         $scope.labels = data.date;
-        $scope.data = [data.notPassed, data.three, data.four, data.five];
         $scope.colors = ['#F03118','#A9D63F','#8AB029','#5C7E0E'];
+
+        // Different types of data
+        $scope.quantities = [data.notPassed, data.three, data.four, data.five]
+        $scope.percentage = calculatePercentage($scope.quantities);
+        console.log($scope.percentage)
+        // data in diagram
+        $scope.data = $scope.quantities;
+
     }
 
     function extractData(exams){

@@ -5,16 +5,10 @@
   </div>
   <div class="col-xs-6 more-details">
     <a uib-tooltip="{{avgGradeTip}}">Grade:</a> {{average}}, <a uib-tooltip="{{avgFailRateTip}}">Fail rate:</a> {{averageFailRate}} % <br>
-    <a ng-click="showPercentage = !showPercentage" >{{showPercentage ? "Show Quantities" : "Show Percentage"}}</a>
+    <a ng-click="togglePercentage(); isShowPercentage = !isShowPercentage" class="pointer"> {{isShowPercentage ? "Show Quantities" : "Show Percentage"}}</a>
   </div>
 
 </div>
 
+<div ui-view></div>
 
-<canvas id="bar" class="chart chart-bar"
-  chart-data="data"
-  chart-labels="labels"
-  chart-legend="legend"
-  chart-series="series"
-  chart-colours="colors">
-</canvas>

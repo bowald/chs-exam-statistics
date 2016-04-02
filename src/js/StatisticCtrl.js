@@ -10,32 +10,29 @@ angular
     $scope.avgGradeTip = 'Average grade based on average result of only passing students.';
     $scope.avgFailRateTip = 'Average fail rate based on the average of fails per exam.';
 
-    $scope.showPercentage = false;
+    $scope.isShowPercentage = $state.current.name == "search.statistics.percentage";
+    $scope.togglePercentage = function () {
+        if($state.current.name == "search.statistics.percentage"){$state.go('search.statistics.chart');}
+        else{$state.go('search.statistics.percentage')}
 
-    $scope.$watch('showPercentage', function (show) {
-        if(show){
-            $scope.data = $scope.percentage;
+    }
+
+    function calculatePercentage(dates, notPassed,threes,fours,fives) {;
+        var exames = [];
+        for (i = 0; i < dates.length; i++) {
+            percentage = {};
+
+            var totalOnExam = notPassed[i] + threes[i] + fours[i] + fives[i];
+            percentage.notPassed = Math.round(notPassed[i]/totalOnExam * 1000) / 10;
+            percentage.threes = Math.round(threes[i]/totalOnExam * 1000) / 10;
+            percentage.fours = Math.round(fours[i]/totalOnExam * 1000) / 10;
+            percentage.fives = Math.round(fives[i]/totalOnExam * 1000) / 10;
+            percentage.totalOnExam = totalOnExam;
+            percentage.date = dates[i];
+
+            exames.push(percentage);
         }
-        else{
-            $scope.data = $scope.quantities;
-        }
-    })
-
-    function calculatePercentage(quantityData) {
-
-        var notPassed = [];
-        var threes = [];
-        var fours = [];
-        var fives = [];
-
-        for (i = 0; i < quantityData[0].length; i++) {
-            var totalOnExam = quantityData[0][i] + quantityData[1][i] + quantityData[2][i] + quantityData[3][i];
-            notPassed.push(Math.round(quantityData[0][i]/totalOnExam * 1000) / 10);
-            threes.push(Math.round(quantityData[1][i]/totalOnExam * 1000) / 10);
-            fours.push(Math.round(quantityData[2][i]/totalOnExam * 1000) / 10);
-            fives.push(Math.round(quantityData[3][i]/totalOnExam * 1000) / 10);
-        }
-        return [notPassed, threes, fours, fives];
+        return exames;
     }
 
     function getCurrentCourse(code, collection) {
@@ -69,8 +66,8 @@ angular
 
         // Different types of data
         $scope.quantities = [data.notPassed, data.three, data.four, data.five]
-        $scope.percentage = calculatePercentage($scope.quantities);
-        console.log($scope.percentage)
+        $scope.percantageCollection = calculatePercentage(data.date, data.notPassed, data.three, data.four, data.five);
+        // console.log($scope.percantageCollection)
         // data in diagram
         $scope.data = $scope.quantities;
 

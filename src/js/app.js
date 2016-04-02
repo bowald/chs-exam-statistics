@@ -17,19 +17,27 @@ angular
             .state('search.list', {
                 url: '/list',
                 templateUrl: 'views/search.list.html'
-
             })
 
             .state('search.statistics', {
                 url: '/statistics/:code',
                 templateUrl: 'views/search.statistics.html',
                 controller: 'StatisticCtrl'
-            });
+            })
 
+            .state('search.statistics.chart', {
+                url: '/chart',
+                templateUrl: 'views/search.statistics.chart.html'
+            })
+
+            .state('search.statistics.percentage', {
+                url: '/percentage',
+                templateUrl: 'views/search.statistics.percentage.html'
+            });
     })
 
     .run(['$rootScope', '$location', '$window', function($rootScope, $location, $window){
-        // Send info to analytics
+        // Send info to Google analytics
         $rootScope
             .$on('$stateChangeSuccess',
                 function(event){

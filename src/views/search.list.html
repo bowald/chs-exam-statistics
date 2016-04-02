@@ -1,13 +1,13 @@
-<table st-table="displayedCollection" st-safe-src="rowCollection" class="table table-bordered table-hover">
+<table st-table="displayedCollection" st-safe-src="rowCollection" class="table table-hover">
     <thead>
     <tr>
-        <th st-sort="name">Coursename</th>
-        <th st-sort="code">Code</th>
-        <th st-sort="owner">Owner</th>
+        <th st-sort="name" class="pointer">Coursename</th>
+        <th st-sort="code" class="pointer">Code</th>
+        <th st-sort="owner" class="pointer">Owner</th>
     </tr>
     </thead>
     <tbody>
-    <tr ng-repeat="course in displayedCollection | filter:search" class="list-row" ng-click="stats(course.code)">
+    <tr ng-repeat="course in displayedCollection | filter:search" class="list-row, pointer" ng-click="stats(course.code)">
         <td class="capitalize">{{course.name}}</td>
         <td class="capitalize">{{course.code}}</td>
         <td class="capitalize">{{course.owner}}</td>

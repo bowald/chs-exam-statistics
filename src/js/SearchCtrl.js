@@ -22,7 +22,7 @@ angular
     },true);
 
     $scope.stats = function(code) {
-        $state.go('search.statistics',{code: code});
+        $state.go('search.statistics.chart',{code: code});
     };
 
     function getData (searchTerm) {

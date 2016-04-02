@@ -1,0 +1,22 @@
+<table st-table="percantageCollection" class="table ">
+    <thead>
+    <tr>
+        <th st-sort="date" class='pointer'>Date</th>
+        <th st-sort="notPassed" class='pointer'>U</th>
+        <th st-sort="threes" class='pointer'>3</th>
+        <th st-sort="fours" class='pointer'>4</th>
+        <th st-sort="fives" class='pointer'>5</th>
+        <th st-sort="totalOnExam" class='pointer'>Students</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr ng-repeat="result in percantageCollection" class="list-row">
+      <td>{{result.date}}</td>
+        <td>{{result.notPassed}} %</td>
+        <td>{{result.threes}} %</td>
+        <td>{{result.fours}} %</td>
+        <td>{{result.fives}} %</td>
+        <td>{{result.totalOnExam}}</td>
+    </tr>
+    </tbody>
+</table>

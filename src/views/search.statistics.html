@@ -4,8 +4,8 @@
     <span class='details-owner' >{{currentCourse.owner}}</span>
   </div>
   <div class="col-xs-6 more-details">
-    <a href="#" uib-tooltip="{{avgGradeTip}}">Grade:</a> {{average}}, <a href="#" uib-tooltip="{{avgFailRateTip}}">Fail rate:</a> {{averageFailRate}} % <br>
-    <a href="#" ng-click="showPercentage = !showPercentage" >{{showPercentage ? "Show Quantities" : "Show Percentage"}}</a>
+    <a uib-tooltip="{{avgGradeTip}}">Grade:</a> {{average}}, <a uib-tooltip="{{avgFailRateTip}}">Fail rate:</a> {{averageFailRate}} % <br>
+    <a ng-click="showPercentage = !showPercentage" >{{showPercentage ? "Show Quantities" : "Show Percentage"}}</a>
   </div>
 
 </div>

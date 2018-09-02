@@ -1,22 +1,24 @@
 
 var XLSX    = require('xlsx'),
-    HashMap = require('hashmap'),
     fs      = require('fs'),
     http    = require('http'),
-    ProgressBar = require('progress'),
-    Course  = require('./model/course'),
-    Q       = require('q');
+    moment = require('moment'),
+    Course  = require('./model/course')
 
 var OUTPUTPATH = '/courses.json',
     FILENAME ='statistik.xlsx';
 
 var gradeToKey = function (grade){
-    if (grade == 3) return 'three';
-    else if (grade == 4) return 'four';
-    else if (grade == 5) return 'five';
-    else if (grade == 'U') return 'notPassed';
+    if (grade === '3') return 'three';
+    else if (grade === '4') return 'four';
+    else if (grade === '5') return 'five';
+    else if (grade === 'U') return 'notPassed';
     else return 'undefined';
 };
+
+var toDate = s => {
+    return moment(s).toDate()
+}
 
 //usefull for debugging pourpuses.
 var SaveToFile = function(collection){
@@ -30,13 +32,6 @@ var SaveToFile = function(collection){
 };
 
 var SaveToDb = function (collection) {
-    var bar = new ProgressBar('saving data [:bar] :percent ', {
-                                        complete: '='
-                                      , incomplete: ' '
-                                      , width: 30
-                                      , total: collection.length
-                                    });
-
     collection.forEach(function (course) {
         Course.update({code: course.code},{
             name: course.name,
@@ -50,14 +45,13 @@ var SaveToDb = function (collection) {
                 console.log(err);
             }
         });
-        bar.tick(1);
     });
 }
 
 module.exports = {
 
     getStatistics: function () {
-        var deferred = Q.defer();
+        return new Promise((resolve, reject) => {
 
         var options = {
             hostname  : 'document.chalmers.se',
@@ -73,31 +67,24 @@ module.exports = {
           });
 
           res.on('end', function () {
-                deferred.resolve(FILENAME);
+                resolve(FILENAME);
           })
         });
 
         req.on('error', function(err) {
             //if an error occurs reject the deferred
             console.log(err);
-            deferred.reject(err);
+            reject(err);
         });
         req.end();
 
-        return deferred.promise;
+        });
     },
 
     parse: function(filename) {
         var workbook = XLSX.readFile(__dirname + '/' + filename);
         var collection = workbook['Sheets'];
-
-        var courses = new HashMap();
-        var bar = new ProgressBar('building json [:bar] :percent ', {
-                                        complete: '='
-                                      , incomplete: ' '
-                                      , width: 30
-                                      , total: Object.keys(collection).length
-                                    });
+        const courses = {};
 
         for (var key in collection) {
             if (collection.hasOwnProperty(key)) {
@@ -112,22 +99,17 @@ module.exports = {
                     // Itterate over rows in sheet
                     for (i = 1; i < numberOfRows+1; i++) {
                         if (sheet.hasOwnProperty('F' + i)){
-                            isExam = sheet['F' + i]['v'].toLowerCase() == 'tentamen';
-
+                            isExam = sheet['F' + i].w.toLowerCase() === 'tentamen';
+                            const code = sheet['A' + i].w.toUpperCase();
                             if(isExam) {
-                                var course = {};
-
-                                course.code  = sheet['A' + i]['v'].toUpperCase();
-                                course.name  = sheet['B' + i]['v'].toLowerCase();
-                                course.owner = sheet['D' + i]['v'].toLowerCase();
-                                var grade = gradeToKey(sheet['I' + i]['v']);
+                                var grade = gradeToKey(sheet['I' + i].w);
                                 if (grade != 'undefined'){
-                                    exam = {}
-                                    exam['date'] = sheet['H' + i]['v'];
-                                    exam[grade] = sheet['J' + i]['v'];
+                                    const exam = {}
+                                    exam['date'] = toDate(sheet['H' + i].w);
+                                    exam[grade] = sheet['J' + i].w;
 
-                                    if(courses.has(course.code)){
-                                        var course = courses.get(course.code);
+                                    if (code in courses){
+                                        const course = courses[code];
 
                                         if(course.exams[course.exams.length - 1]['date'] == exam['date']){
                                             //if exam exists, extend grade.
@@ -137,12 +119,17 @@ module.exports = {
                                             //create a new exam
                                             course.exams.push(exam);
                                         }
-                                        courses.set(course.code, course);
+                                        courses[code] = course
                                     }
                                     else {
                                         //create a new course
-                                        course['exams'] = [exam];
-                                        courses.set(course.code, course);
+                                        const course = {
+                                            code: code,
+                                            name: sheet['B' + i].w.toLowerCase(),
+                                            owner: sheet['D' + i].w.toLowerCase(),
+                                            exams: [exam]
+                                        };
+                                        courses[code] = course
                                     }
                                 }
                             }
@@ -150,8 +137,7 @@ module.exports = {
                     }
                 }
             }
-            bar.tick(1);
         }
-        SaveToDb(courses.values());
+        SaveToDb(Object.values(courses));
     }
 };

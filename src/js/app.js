@@ -1,3 +1,18 @@
+require('../less/chs-exam-statistics.less')
+
+import angular from 'angular';
+import 'angular-ui-router';
+import 'angular-smart-table';
+import 'angular-chart.js';
+import 'angular-ui-bootstrap';
+
+/**
+ * chs-exam-statistics
+ * @version v1.0.0
+ * @link https://github.com/bowald/chs-exam-statistics
+ * @license MIT License, http://www.opensource.org/licenses/MIT
+ */
+
 angular
     .module('tenta', [
         'ui.router','smart-table', 'chart.js', 'ui.bootstrap'
@@ -48,3 +63,8 @@ angular
                     $window.ga('send', 'pageview', { page: $location.path() });
             });
     }]);
+
+require('./StatisticCtrl')
+require('./SearchFactory')
+require('./SearchCtrl')
+require('./google-analytics')

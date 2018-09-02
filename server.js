@@ -5,7 +5,7 @@ const express        = require('express'),
     bodyParser     = require('body-parser'),
     methodOverride = require('method-override'),
     mongoose       = require('mongoose'),
-    updateDb       = require('./app/updateDb.js');
+    StatisticsParser       = require('./app/StatisticsParser');
 
 
 // connect to mongoDB database
@@ -40,8 +40,9 @@ require('./app/routes')(app);
 
 
 // start app ===============================================
-// downloadAndUpdate();
-updateDb.parse('statistik.xlsx');
+const sp = new StatisticsParser();
+downloadAndUpdate();
+// sp.parse();
 // When using gulp run downloadAndUpdate() once to store data in db, then comment it away.
 
 // update db every 24 hours.
@@ -49,17 +50,10 @@ setInterval(downloadAndUpdate, 86400000);
 
 start();
 
-function downloadAndUpdate() {
-  updateDb.getStatistics().then(
-    function (filename) {
-        // Unable to parse without delay, even if waiting for promise. Fix?
-        setTimeout(function (hello) {
-            updateDb.parse(filename);
-        },20);
-    },
-    function (err) {
-        console.log(err);
-    });
+async function downloadAndUpdate() {
+    await sp.getStatistics();
+    sp.parse()
+    sp.SaveToDb()
 }
 
 function start() {

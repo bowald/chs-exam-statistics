@@ -13,8 +13,13 @@ function _gradeToKey(grade) {
     else return '';
 };
 
-function _toDate(s) {
-    return moment(s).toDate()
+function _toDate(s, print) {
+    if(!s) return false
+    const m = moment(s);
+    if (!m.isValid()){
+        return false
+    }
+    return m.toDate()
 }
 
 function _getString(sheet, column, row) {
@@ -26,12 +31,14 @@ function _getString(sheet, column, row) {
 }
 
 function _parseRow(sheet, row) {
+    const date = _toDate(_getString(sheet, 'H', row))
+    if (!date) return false;
     return {
         code: _getString(sheet, 'A', row),
         name: _getString(sheet, 'B', row),
         grade: _gradeToKey(_getString(sheet, 'I', row)),
         owner: _getString(sheet, 'D', row),
-        date: _toDate(_getString(sheet, 'H', row)),
+        date: date,
         nrOfStudents: _getString(sheet, 'J', row),
         type: _getString(sheet, 'F', row)
     }
@@ -110,7 +117,7 @@ class StatisticsParser {
 
                 for (let row = 1; row < numberOfRows + 1; row++) {
                     const rowData = _parseRow(sheet, row)
-
+                    if (!rowData) continue;
                     // Check if row contains results from an exam (skips projects etc)
                     if (rowData.type === 'tentamen') {
                         const course = this.getCourse(rowData)
@@ -120,17 +127,7 @@ class StatisticsParser {
                             examIndex = course.exams.length
                             course.exams.push({ date: rowData.date });
                         }
-                        try {
-                            course.exams[examIndex][rowData.grade] = rowData.nrOfStudents;
-                        }
-                        catch (error) {
-                            console.log("examIndex:", examIndex)
-                            console.log(rowData)
-                            console.log(course)
-                            console.log(row)
-                            console.log(_getString(sheet, 'H', row))
-                            console.log(error)
-                        }
+                        course.exams[examIndex][rowData.grade] = rowData.nrOfStudents;
                     }
                 }
             }

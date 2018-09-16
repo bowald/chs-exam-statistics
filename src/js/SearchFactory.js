@@ -1,4 +1,3 @@
-'use strict';
 angular
     .module('tenta')
     .factory('SearchFactory',['$http', '$cacheFactory', '$q', function($http, $cacheFactory, $q) {

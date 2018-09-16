@@ -1,5 +1,6 @@
 app/statistik.xlsx
 node_modules/
 dist/
-env.json
+gulpfile.js
+.vscode
 *.log

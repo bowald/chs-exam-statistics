@@ -12,7 +12,8 @@ const express        = require('express'),
 const mongouri = process.env.MONGO_URI || "mongodb://localhost:27017/chs-exam-statistics";
 // mongoose.connect(mongouri);
 
-mongoose.connect(mongouri, { useNewUrlParser: true });
+const options = { keepAlive: 300000, connectTimeoutMS: 30000, useNewUrlParser: true };
+mongoose.connect(mongouri, options);
 
 // get all data/stuff of the body (POST) parameters
 // parse application/json

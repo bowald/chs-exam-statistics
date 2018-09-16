@@ -34,7 +34,7 @@ function _parseRow(sheet, row) {
     const date = _toDate(_getString(sheet, 'H', row))
     if (!date) return false;
     return {
-        code: _getString(sheet, 'A', row),
+        code: _getString(sheet, 'A', row).toUpperCase(),
         name: _getString(sheet, 'B', row),
         grade: _gradeToKey(_getString(sheet, 'I', row)),
         owner: _getString(sheet, 'D', row),

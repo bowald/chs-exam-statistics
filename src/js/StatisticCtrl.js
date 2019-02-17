@@ -16,17 +16,21 @@ angular
         else{$state.go('search.statistics.percentage')}
 
     }
+   
+    function gradePercentage(grade, total) {
+        return total > 0 ? Math.round(grade / total * 1000) / 10 : 0;
+    }
 
-    function calculatePercentage(dates, notPassed,threes,fours,fives) {;
+    function calculatePercentage(dates, notPassed,threes,fours,fives) {
         var exames = [];
         for (i = 0; i < dates.length; i++) {
             percentage = {};
 
             var totalOnExam = notPassed[i] + threes[i] + fours[i] + fives[i];
-            percentage.notPassed = Math.round(notPassed[i]/totalOnExam * 1000) / 10;
-            percentage.threes = Math.round(threes[i]/totalOnExam * 1000) / 10;
-            percentage.fours = Math.round(fours[i]/totalOnExam * 1000) / 10;
-            percentage.fives = Math.round(fives[i]/totalOnExam * 1000) / 10;
+            percentage.notPassed = gradePercentage(notPassed[i], totalOnExam);
+            percentage.threes = gradePercentage(threes[i], totalOnExam);
+            percentage.fours = gradePercentage(fours[i], totalOnExam);
+            percentage.fives = gradePercentage(fives[i], totalOnExam);
             percentage.totalOnExam = totalOnExam;
             percentage.date = dates[i];
 
@@ -133,13 +137,14 @@ angular
         var passedStudents = 0;
         var examFailRate = 0;
         exams.forEach(function (exam) {
-            examFailRate += exam.notPassed / (exam.three + exam.four + exam.five + exam.notPassed);
+            var students = exam.three + exam.four + exam.five + exam.notPassed
+            examFailRate += students > 0 ? exam.notPassed / students : 0;
             totGrade += exam.three * 3 + exam.four * 4 + exam.five * 5;
             passedStudents += exam.three + exam.four + exam.five;
         });
 
         if(passedStudents != 0){
-            $scope.average = Math.round(totGrade/passedStudents * 100)/100;
+            $scope.average = Math.round(totGrade/passedStudents * 100) / 100;
         }
         else {
             $scope.average = "-";

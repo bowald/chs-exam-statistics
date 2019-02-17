@@ -62,18 +62,22 @@ class StatisticsParser {
     }
 
     SaveToDb() {
-        Object.values(this.courses).forEach(course => {
-            Course.update({ code: course.code }, {
+      Object.values(this.courses).forEach(course => {
+        Course.update(
+            {code: course.code}, 
+            {
                 name: course.name,
                 code: course.code,
                 owner: course.owner,
-                $addToSet: { exams: { $each: course.exams } }
+                $addToSet: {exams: {$each: course.exams}}
             },
-                { upsert: true },
-                err => {
-                    console.log(err);
-                });
-        });
+            {upsert: true}, 
+            err => {
+                if (err) {
+                    console.log(err)
+                }
+            });
+      });
     }
 
     getStatistics() {

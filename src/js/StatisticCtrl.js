@@ -8,7 +8,7 @@ angular
 
     // Tool tips
     $scope.avgGradeTip = 'Average grade based on average result of only passing students.';
-    $scope.avgFailRateTip = 'Average fail rate based on the average of fails per exam.';
+    $scope.avgFailRateTip = 'Average fail rate based on the total number of failures over the total number of attempts.';
 
     $scope.isShowPercentage = $state.current.name == "search.statistics.percentage";
     $scope.togglePercentage = function () {
@@ -133,14 +133,14 @@ angular
     function calculateAvrage (exams) {
         var students = 0;
         var totGrade = 0;
-        var totFails = 0;
         var passedStudents = 0;
-        var examFailRate = 0;
-        exams.forEach(function (exam) {
-            var students = exam.three + exam.four + exam.five + exam.notPassed
-            examFailRate += students > 0 ? exam.notPassed / students : 0;
-            totGrade += exam.three * 3 + exam.four * 4 + exam.five * 5;
-            passedStudents += exam.three + exam.four + exam.five;
+        var failedStudents = 0;
+        var attempts = 0;
+        exams.forEach(function(exam) {
+          attempts += exam.three + exam.four + exam.five + exam.notPassed
+          totGrade += exam.three * 3 + exam.four * 4 + exam.five * 5;
+          passedStudents += exam.three + exam.four + exam.five;
+          failedStudents += exam.notPassed
         });
 
         if(passedStudents != 0){
@@ -150,8 +150,9 @@ angular
             $scope.average = "-";
         }
 
-        $scope.averageFailRate = Math.round((examFailRate/exams.length) * 100); //Convert to procent
+        $scope.averageFailRate = Math.round(failedStudents/attempts * 100);  // Convert to procent
         $scope.numOfStudens = students;
+        $scope.avgFailRateTip = `Average fail rate based on the total number of failures over the total number of attempts. i.e ${failedStudents} U / ${attempts} attempts = ${$scope.averageFailRate}%`
     }
 
 
